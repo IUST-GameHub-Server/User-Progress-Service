@@ -5,7 +5,7 @@ app = Flask(__name__)
 config=""
 
 @app.route('/show_person_points')
-def show_person_points(string):
+def show_person_points(eMail):
     return "Not Implemented"
 
 @app.route('/show_user_level')
