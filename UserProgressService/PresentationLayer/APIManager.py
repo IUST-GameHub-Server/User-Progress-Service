@@ -1,22 +1,16 @@
 from ..LogicLayer.UserProgressLogic import UserProgressLogic
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
-config=""
 
-@app.route('/show_person_points')
-def show_person_points(eMail):
-    return "Not Implemented"
+@app.route('/setup_user_progress', methods=['PUT'])
+def setup_user_progress():
+    return UserProgressLogic.setup_player(request.data)
 
-@app.route('/show_user_level')
-def show_user_level(message):
-    return "Not Implemented"
+@app.route('/update_user_progress', methods=['POST'])
+def update_user_progress():
+    return UserProgressLogic.update_player_progress(request.data)
 
-
-@app.route('/show_user_rating')
-def show_user_rating():
-    return "Not Implemented"
-
-@app.route('/display_allowed_steps')
-def display_allowed_steps():
-    return "Not Implemented"
+@app.route('/get_user_progress', methods=['GET'])
+def get_user_progress():
+    return UserProgressLogic.get_player_progress(request.data)

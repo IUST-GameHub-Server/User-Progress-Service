@@ -1,14 +1,31 @@
-from .Point import Point
 from ..DataLayer.DataAccess import DataAccess
+from types import SimpleNamespace
+import json
 
 class UserProgressLogic:
-    config=""
+    def setup_player(user_info):
+        user= json.loads(user_info, object_hook=lambda d: SimpleNamespace(**d))
+        return json.dumps({'result' : DataAccess.setup_player(user.email)})
+    
+    def update_player_progress(user_info):
+        user= json.loads(user_info, object_hook=lambda d: SimpleNamespace(**d))
+        DataAccess.set_player_level(user.email, user.level)
+        DataAccess.set_point(user.email, user.point)
+        DataAccess.set_user_rating(user.email, user.rating)
 
-    def collect_user_points(self, eMail):
-        return "Not Implemented"
+        result={
+            'level':DataAccess.get_player_level(user.email)[0],
+            'point':DataAccess.get_point(user.email)[0],
+            'rating':DataAccess.get_user_rating(user.email)[0]
+        }
+        return json.dumps(result)
     
-    def compare_user_scores(self,eMail, point):
-        return "Not Implemented"
-    
-    def update_level(self, eMail, point):
-        return "Not Implemented"
+    def get_player_progress(user_info):
+        user= json.loads(user_info, object_hook=lambda d: SimpleNamespace(**d))
+        result={
+            'level':DataAccess.get_player_level(user.email)[0],
+            'point':DataAccess.get_point(user.email)[0],
+            'rating':DataAccess.get_user_rating(user.email)[0]
+        }
+        return json.dumps(result)
+
